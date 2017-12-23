@@ -1,5 +1,5 @@
-# cloudformationtemplate Description
-AWS CloudFormation AutoScalingMultiAZWithNotifications: Create a multi-az, load balanced and Auto Scaled sample web site running on an Apache Web Serever. The application is configured to span all Availability Zones in the region and is Auto-Scaled based on the CPU utilization of the web servers. Notifications will be sent to the operator email address on scaling events.it also has NAT Instance with RDS instance to enable internet connection for RDS
+# AutoScalingMultiAZWithNotifications CloudFormation Template :
+ Create a multi-az, load balanced and Auto Scaled sample web site running on an Apache Web Serever. The application is configured to span all Availability Zones in the region and is Auto-Scaled based on the CPU utilization of the web servers. Notifications will be sent to the operator email address on scaling events.it also has NAT Instance with RDS instance to enable internet connection for RDS
 
 # The template creates the below components
 3 Public Subnets and route tables respectively
@@ -20,32 +20,7 @@ AWS CloudFormation AutoScalingMultiAZWithNotifications: Create a multi-az, load 
 3. Webserver Auto scaling Policies:
         Scale up the 1 server when CPU is more than 80%
         Scale down 1 server when CPU is less than 20%
-
-
-# Bastion Host:
-It installs elastic Ip package during boot process with user data  to associate EIP 
-# Process to Auto Assign Elastic IP:
-Automatically assign Elastic IPs to AWS EC2 instances in Auto scale group. 
-The script should be executed on the EC2 instance that should get assigned an Elastic IP. This is typically done as part of the instance boot process.
-aws-ec2-assign-elastic-ip is idempotent and will not assign an new Elastic IP if the instance already has one.
-# Installation:
-aws-ec2-assign-elastic-ip is easiest to install via PyPI.
-pip install aws-ec2-assign-elastic-ip
-# Required IAM permissions:
-using the following IAM policys to be able to list and associate Elastic IPs.. It allows EC2 read-only (from the IAM wizard) and ec2:AssociateAddress permissions:
-{
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:AssociateAddress",
-        "ec2:Describe*"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-
+        
 # S3 Bucket:
 Creating S3 bucket and Allowing EC2 instance to access objects
 
@@ -79,4 +54,29 @@ Creating one RDS Postgres instance to maintain Database and it will have access 
 
 # SNS Notification:
 SNS topic notifies whenever a webserver launched, terminated and also allows operator input email id for subscription
+
+# Bastion Host:
+It installs elastic Ip package during boot process with user data  to associate EIP 
+# Process to Auto Assign Elastic IP:
+Automatically assign Elastic IPs to AWS EC2 instances in Auto scale group. 
+The script should be executed on the EC2 instance that should get assigned an Elastic IP. This is typically done as part of the instance boot process.
+aws-ec2-assign-elastic-ip is idempotent and will not assign an new Elastic IP if the instance already has one.
+# Installation:
+aws-ec2-assign-elastic-ip is easiest to install via PyPI.
+pip install aws-ec2-assign-elastic-ip
+# Required IAM permissions:
+using the following IAM policys to be able to list and associate Elastic IPs.. It allows EC2 read-only (from the IAM wizard) and ec2:AssociateAddress permissions:
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:AssociateAddress",
+        "ec2:Describe*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
 
